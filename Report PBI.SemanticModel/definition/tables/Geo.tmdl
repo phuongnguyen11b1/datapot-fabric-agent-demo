@@ -1,0 +1,65 @@
+table Geo
+	lineageTag: fa30cb9e-b156-43cb-ac2d-6b5c07930550
+
+	column Zip
+		dataType: int64
+		formatString: 0
+		lineageTag: 8739a809-bc4a-4409-9272-1b07d350701f
+		summarizeBy: none
+		sourceColumn: Zip
+
+		annotation SummarizationSetBy = Automatic
+
+	column City
+		dataType: string
+		lineageTag: d4eea116-ef29-4dba-977a-a387329bd716
+		summarizeBy: none
+		sourceColumn: City
+
+		annotation SummarizationSetBy = Automatic
+
+	column State
+		dataType: string
+		lineageTag: 111c23ac-f264-405c-a573-bf0ea1d47803
+		summarizeBy: none
+		sourceColumn: State
+
+		annotation SummarizationSetBy = Automatic
+
+	column Region
+		dataType: string
+		lineageTag: 2716b57f-c43d-4e9d-87dd-9b0522db01a9
+		summarizeBy: none
+		sourceColumn: Region
+
+		annotation SummarizationSetBy = Automatic
+
+	column District
+		dataType: string
+		lineageTag: 632cbb45-8b45-41b9-9d2b-d8e4d98c54e1
+		summarizeBy: none
+		sourceColumn: District
+
+		annotation SummarizationSetBy = Automatic
+
+	column Country
+		dataType: string
+		lineageTag: ac410375-a781-4f82-b1c3-1555b2d639d0
+		summarizeBy: none
+		sourceColumn: Country
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Geo = m
+		mode: import
+		source =
+				let
+				    Source = Excel.Workbook(File.Contents("D:\datapot-fabric-agent-demo\Dataset\Data lab & assignment\VanArsdel_Actuals.xlsx"), null, true),
+				    Geo_Sheet = Source{[Item="Geo",Kind="Sheet"]}[Data],
+				    #"Promoted Headers" = Table.PromoteHeaders(Geo_Sheet, [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"Zip", Int64.Type}, {"City", type text}, {"State", type text}, {"Region", type text}, {"District", type text}, {"Country", type text}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_ResultType = Table
+

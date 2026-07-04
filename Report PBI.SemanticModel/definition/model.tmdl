@@ -1,0 +1,27 @@
+model Model
+	culture: en-US
+	defaultPowerBIDataSourceVersion: powerBI_V3
+	sourceQueryCulture: en-US
+	dataAccessOptions
+		legacyRedirects
+		returnErrorValuesAsNull
+
+annotation __PBI_TimeIntelligenceEnabled = 1
+
+annotation PBI_QueryOrder = ["Campaign","Customer","Date","Geo","Product","Sales","Budget_Forecast"]
+
+annotation PBI_ProTooling = ["DevMode"]
+
+ref table Campaign
+ref table Customer
+ref table Date
+ref table DateTableTemplate_8edc913d-f9ef-4a7f-b5be-dc90a7088294
+ref table LocalDateTable_3dda33dc-37fa-4b25-8615-a85124191390
+ref table LocalDateTable_3667d67d-e959-470f-9cdf-6ebc762a1b7d
+ref table Geo
+ref table Product
+ref table Sales
+ref table Budget_Forecast
+
+ref cultureInfo en-US
+

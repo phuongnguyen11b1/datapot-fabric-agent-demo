@@ -1,0 +1,91 @@
+table Date
+	lineageTag: fb28f376-d2e2-4570-856e-5b55b79154b7
+
+	column Date
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: e9007fe4-b5a2-4280-b751-d6eb16a6cb93
+		summarizeBy: none
+		sourceColumn: Date
+
+		variation Variation
+			isDefault
+			relationship: 8fc9a054-0da9-46d1-ae54-a8a05d299237
+			defaultHierarchy: LocalDateTable_3dda33dc-37fa-4b25-8615-a85124191390.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column MonthNo
+		dataType: int64
+		formatString: 0
+		lineageTag: c2f7d8ec-c976-4234-acbc-643270b2e317
+		summarizeBy: sum
+		sourceColumn: MonthNo
+
+		annotation SummarizationSetBy = Automatic
+
+	column MonthName
+		dataType: string
+		lineageTag: 1801835d-4728-4864-a9c3-b50028febb29
+		summarizeBy: none
+		sourceColumn: MonthName
+
+		annotation SummarizationSetBy = Automatic
+
+	column MonthID
+		dataType: int64
+		formatString: 0
+		lineageTag: 47be1509-c3f4-48e5-86c6-5dac692c06da
+		summarizeBy: count
+		sourceColumn: MonthID
+
+		annotation SummarizationSetBy = Automatic
+
+	column Month
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: eefb7854-0d95-4a28-89c9-33939330b1e1
+		summarizeBy: none
+		sourceColumn: Month
+
+		variation Variation
+			isDefault
+			relationship: b5d0ae0f-7cf0-4b32-8083-eec6eee296d0
+			defaultHierarchy: LocalDateTable_3667d67d-e959-470f-9cdf-6ebc762a1b7d.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column Quarter
+		dataType: string
+		lineageTag: 8df88c65-0518-4daa-81e2-2f9215b42a75
+		summarizeBy: none
+		sourceColumn: Quarter
+
+		annotation SummarizationSetBy = Automatic
+
+	column Year
+		dataType: int64
+		formatString: 0
+		lineageTag: f8ab3af0-3e84-4747-8e61-9e3523e4164e
+		summarizeBy: sum
+		sourceColumn: Year
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Date = m
+		mode: import
+		source =
+				let
+				    Source = Excel.Workbook(File.Contents("D:\datapot-fabric-agent-demo\Dataset\Data lab & assignment\VanArsdel_Actuals.xlsx"), null, true),
+				    Date_Sheet = Source{[Item="Date",Kind="Sheet"]}[Data],
+				    #"Promoted Headers" = Table.PromoteHeaders(Date_Sheet, [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"Date", type date}, {"MonthNo", Int64.Type}, {"MonthName", type text}, {"MonthID", Int64.Type}, {"Month", type date}, {"Quarter", type text}, {"Year", Int64.Type}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_ResultType = Table
+

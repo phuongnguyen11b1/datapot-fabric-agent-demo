@@ -1,0 +1,41 @@
+table Campaign
+	lineageTag: bd3a5478-ca46-4397-8146-256563f2eb93
+
+	column CampaignID
+		dataType: int64
+		formatString: 0
+		lineageTag: 8723978d-c3a4-4cd2-91a9-fd0de9916640
+		summarizeBy: none
+		sourceColumn: CampaignID
+
+		annotation SummarizationSetBy = Automatic
+
+	column TrafficChannel
+		dataType: string
+		lineageTag: 391b3df0-34d6-4d4e-afbf-ba8fa9cb5533
+		summarizeBy: none
+		sourceColumn: TrafficChannel
+
+		annotation SummarizationSetBy = Automatic
+
+	column Device
+		dataType: string
+		lineageTag: dd728196-743a-4ac7-bb52-94a904b1c86b
+		summarizeBy: none
+		sourceColumn: Device
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Campaign = m
+		mode: import
+		source =
+				let
+				    Source = Excel.Workbook(File.Contents("D:\datapot-fabric-agent-demo\Dataset\Data lab & assignment\VanArsdel_Actuals.xlsx"), null, true),
+				    Campaign_Sheet = Source{[Item="Campaign",Kind="Sheet"]}[Data],
+				    #"Promoted Headers" = Table.PromoteHeaders(Campaign_Sheet, [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"CampaignID", Int64.Type}, {"TrafficChannel", type text}, {"Device", type text}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_ResultType = Table
+

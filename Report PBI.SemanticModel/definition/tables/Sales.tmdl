@@ -1,0 +1,93 @@
+table Sales
+	lineageTag: 0ec9b5b5-9886-4b7a-ae3b-1888fdcfe12d
+
+	measure 'Total Revenue' = SUMX(Sales, Sales[Units] * RELATED('Product'[Unit Price]))
+		formatString: \$#,0.00;(\$#,0.00);\$#,0.00
+		lineageTag: 128fd834-bff9-413d-b86c-c70f33e50f02
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	measure 'Total Budget' = SUM('Budget_Forecast'[Target Value])
+		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
+		lineageTag: bd48cbd7-1bc9-431e-97e6-853632f2b33d
+
+	measure 'Budget Attainment' = DIVIDE([Total Revenue], [Total Budget], 0)
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 2b454bfe-5e16-4cc4-8d1e-999763d50840
+
+	measure 'Market Share %' = DIVIDE([Total Revenue], CALCULATE([Total Revenue], REMOVEFILTERS('Product'[Manufacturer])), 0)
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 21958b80-c4be-4614-b8af-4b6388541869
+
+	column ProductID
+		dataType: int64
+		formatString: 0
+		lineageTag: 22a52457-e398-47fa-bc64-cd9dbd3d8574
+		summarizeBy: none
+		sourceColumn: ProductID
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Date
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 88468a9b-70b1-4f3d-8c22-5e86256ca889
+		summarizeBy: none
+		sourceColumn: Date
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column CustomerID
+		dataType: int64
+		formatString: 0
+		lineageTag: e3e247ba-c2f1-4184-bbef-cc4a1e4d3460
+		summarizeBy: none
+		sourceColumn: CustomerID
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column CampaignID
+		dataType: int64
+		formatString: 0
+		lineageTag: 2e85eeac-5193-40ba-a067-439eb42b6ff0
+		summarizeBy: none
+		sourceColumn: CampaignID
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Units
+		dataType: int64
+		formatString: 0
+		lineageTag: 30d9211f-2770-42f7-bc08-83756e0ae086
+		summarizeBy: sum
+		sourceColumn: Units
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Sales = m
+		mode: import
+		source =
+				let
+				    Source = Excel.Workbook(File.Contents("D:\datapot-fabric-agent-demo\Dataset\Data lab & assignment\VanArsdel_Actuals.xlsx"), null, true),
+				    Sales_Sheet = Source{[Item="Sales",Kind="Sheet"]}[Data],
+				    #"Promoted Headers" = Table.PromoteHeaders(Sales_Sheet, [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"ProductID", Int64.Type}, {"Date", type date}, {"CustomerID", Int64.Type}, {"CampaignID", Int64.Type}, {"Units", Int64.Type}})
+				in
+				    #"Changed Type"
+
+	changedProperty = IsHidden
+
+	annotation PBI_ResultType = Table
+

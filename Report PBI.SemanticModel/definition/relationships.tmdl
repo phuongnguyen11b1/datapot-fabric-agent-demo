@@ -1,0 +1,30 @@
+relationship 8fc9a054-0da9-46d1-ae54-a8a05d299237
+	joinOnDateBehavior: datePartOnly
+	fromColumn: Date.Date
+	toColumn: LocalDateTable_3dda33dc-37fa-4b25-8615-a85124191390.Date
+
+relationship b5d0ae0f-7cf0-4b32-8083-eec6eee296d0
+	joinOnDateBehavior: datePartOnly
+	fromColumn: Date.Month
+	toColumn: LocalDateTable_3667d67d-e959-470f-9cdf-6ebc762a1b7d.Date
+
+relationship AutoDetected_5e6817a9-fe74-4bb3-a851-b43a45d3d4f0
+	fromColumn: Sales.CampaignID
+	toColumn: Campaign.CampaignID
+
+relationship AutoDetected_4e07b6fe-69a9-48a0-bb32-864d2386fb62
+	fromColumn: Sales.CustomerID
+	toColumn: Customer.CustomerID
+
+relationship AutoDetected_62b9e5e5-104f-4593-a583-f4f6e4a097c5
+	fromColumn: Sales.ProductID
+	toColumn: Product.ProductID
+
+relationship AutoDetected_8f239eec-2aeb-477b-8145-ed9a7b5e0fde
+	fromColumn: Customer.ZipCode
+	toColumn: Geo.Zip
+
+relationship 5f9217dc-7f15-4c25-b3a0-cbe1bea51f6c
+	fromColumn: Sales.Date
+	toColumn: Date.Date
+

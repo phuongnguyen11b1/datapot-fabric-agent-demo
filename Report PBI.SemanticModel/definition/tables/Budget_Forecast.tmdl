@@ -1,0 +1,51 @@
+table Budget_Forecast
+	lineageTag: 0998fca3-4bd7-4676-9a8f-42ad9b65ae26
+
+	column Month
+		dataType: string
+		lineageTag: 9d5827c7-3a9e-467b-a91a-c4966688d4af
+		summarizeBy: none
+		sourceColumn: Month
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Product Group'
+		dataType: string
+		lineageTag: 07be7719-e692-4e33-8ec4-4e299214fec3
+		summarizeBy: none
+		sourceColumn: Product Group
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Target Value'
+		dataType: decimal
+		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
+		lineageTag: e2d65bc8-52aa-4ad0-ac90-86f02cb942b9
+		summarizeBy: sum
+		sourceColumn: Target Value
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	partition Budget_Forecast = m
+		mode: import
+		source =
+				let
+				    Source = Excel.Workbook(File.Contents("D:\datapot-fabric-agent-demo\Dataset\Data lab & assignment\VanArsdel_Budget_Forecast.xlsx"), null, true),
+				    Sheet1_Sheet = Source{[Item="Sheet1",Kind="Sheet"]}[Data],
+				    #"Changed Type" = Table.TransformColumnTypes(Sheet1_Sheet,{{"Column1", type text}, {"Column2", type text}, {"Column3", type text}, {"Column4", type text}, {"Column5", type text}, {"Column6", type text}, {"Column7", type text}, {"Column8", type text}, {"Column9", type text}, {"Column10", type text}, {"Column11", type text}, {"Column12", type text}}),
+				    #"Promoted Headers" = Table.PromoteHeaders(#"Changed Type", [PromoteAllScalars=true]),
+				    #"Changed Type1" = Table.TransformColumnTypes(#"Promoted Headers",{{"Budget & Forecast ", type text}, {"Column2", type text}, {"Column3", type text}, {"Column4", type text}, {"Column5", type text}, {"Column6", type text}, {"Column7", type text}, {"Column8", type text}, {"Column9", type text}, {"Column10", type text}, {"Column11", type text}, {"Column12", type text}}),
+				    #"Promoted Headers1" = Table.PromoteHeaders(#"Changed Type1", [PromoteAllScalars=true]),
+				    #"Changed Type2" = Table.TransformColumnTypes(#"Promoted Headers1",{{"Type", type text}, {"Year", Int64.Type}, {"Month", type text}, {"Accessory-Accessory", type number}, {"Mix-All Season", type number}, {"Mix-Productivity", type number}, {"Rural-Select", type number}, {"Urban-Convenience", type number}, {"Urban-Extreme", type number}, {"Urban-Moderation", type number}, {"Urban-Regular", type number}, {"Youth-Youth", type number}}),
+				    #"Unpivoted Other Columns" = Table.UnpivotOtherColumns(#"Changed Type2", {"Month"}, "Attribute", "Value"),
+				    #"Renamed Columns" = Table.RenameColumns(#"Unpivoted Other Columns",{{"Attribute", "Product Group"}, {"Value", "Target Value"}}),
+				    #"Changed Type3" = Table.TransformColumnTypes(#"Renamed Columns",{{"Target Value", Currency.Type}})
+				in
+				    #"Changed Type3"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

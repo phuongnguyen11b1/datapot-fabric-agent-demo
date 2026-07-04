@@ -1,0 +1,113 @@
+{
+  "version": "1.1.0",
+  "diagrams": [
+    {
+      "ordinal": 0,
+      "scrollPosition": {
+        "x": 0,
+        "y": 0
+      },
+      "nodes": [
+        {
+          "location": {
+            "x": 3.0242617307018236,
+            "y": 0
+          },
+          "nodeIndex": "Campaign",
+          "nodeLineageTag": "bd3a5478-ca46-4397-8146-256563f2eb93",
+          "size": {
+            "height": 152,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 1260.6734982123414,
+            "y": 0.37908149127031265
+          },
+          "nodeIndex": "Customer",
+          "nodeLineageTag": "fa2dc0ef-c38d-4d7c-bd55-1a8ade8fc39b",
+          "size": {
+            "height": 152,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 308.12881341554635,
+            "y": 0
+          },
+          "nodeIndex": "Date",
+          "nodeLineageTag": "fb28f376-d2e2-4570-856e-5b55b79154b7",
+          "size": {
+            "height": 248,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 952.48644703739058,
+            "y": 0
+          },
+          "nodeIndex": "Geo",
+          "nodeLineageTag": "fa30cb9e-b156-43cb-ac2d-6b5c07930550",
+          "size": {
+            "height": 224,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 620.05049513867232,
+            "y": 0
+          },
+          "nodeIndex": "Product",
+          "nodeLineageTag": "8513e72a-3663-47bd-9f54-e302e4913e2d",
+          "size": {
+            "height": 272,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 407.55041802057787,
+            "y": 329.08349859278457
+          },
+          "nodeIndex": "Sales",
+          "nodeLineageTag": "0ec9b5b5-9886-4b7a-ae3b-1888fdcfe12d",
+          "size": {
+            "height": 200,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 763.34297421284134,
+            "y": 327.3090319921439
+          },
+          "nodeIndex": "Budget_Forecast",
+          "nodeLineageTag": "0998fca3-4bd7-4676-9a8f-42ad9b65ae26",
+          "size": {
+            "height": 152,
+            "width": 234
+          },
+          "zIndex": 0
+        }
+      ],
+      "name": "All tables",
+      "zoomValue": 63.287087723234038,
+      "pinKeyFieldsToTop": false,
+      "showExtraHeaderInfo": false,
+      "hideKeyFieldsWhenCollapsed": false,
+      "tablesLocked": false
+    }
+  ],
+  "selectedDiagram": "All tables",
+  "defaultDiagram": "All tables"
+}

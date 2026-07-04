@@ -1,0 +1,42 @@
+table Customer
+	lineageTag: fa2dc0ef-c38d-4d7c-bd55-1a8ade8fc39b
+
+	column CustomerID
+		dataType: int64
+		formatString: 0
+		lineageTag: 681f59b2-065e-4972-869e-4a4a2a13528f
+		summarizeBy: none
+		sourceColumn: CustomerID
+
+		annotation SummarizationSetBy = Automatic
+
+	column ZipCode
+		dataType: int64
+		formatString: 0
+		lineageTag: 3df134d7-fc4e-44ab-ac33-caf1ef6feb4b
+		summarizeBy: none
+		sourceColumn: ZipCode
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Email Name'
+		dataType: string
+		lineageTag: dea51714-6ef4-483f-89de-7e15075a0306
+		summarizeBy: none
+		sourceColumn: Email Name
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Customer = m
+		mode: import
+		source =
+				let
+				    Source = Excel.Workbook(File.Contents("D:\datapot-fabric-agent-demo\Dataset\Data lab & assignment\VanArsdel_Actuals.xlsx"), null, true),
+				    Customer_Sheet = Source{[Item="Customer",Kind="Sheet"]}[Data],
+				    #"Promoted Headers" = Table.PromoteHeaders(Customer_Sheet, [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"CustomerID", Int64.Type}, {"ZipCode", Int64.Type}, {"Email Name", type text}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_ResultType = Table
+
